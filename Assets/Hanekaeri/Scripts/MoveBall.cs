@@ -18,6 +18,10 @@ public class MoveBall : MonoBehaviour {
 	//ボールの個数
 	private static int BallCount = 0;
 
+	public static void ClearBallCount() {
+		BallCount = 0;
+	}
+
 	// Use this for initialization
 	void Start () {
 		rig = GetComponent<Rigidbody> ();
@@ -37,7 +41,7 @@ public class MoveBall : MonoBehaviour {
 			
 			BallCount++;
 			Debug.Log (BallCount);
-			CountText.text = "" + BallCount;
+			//CountText.text = "" + BallCount;
 		}
 	}
 	
@@ -46,15 +50,21 @@ public class MoveBall : MonoBehaviour {
 		
 	}
 
-	void OnDestroy() {
-		if (CompareTag ("Item")) {
-			BallCount--;
-			CountText.text = "" + BallCount;
+	void OnTriggerEnter(Collider col){
+		if (col.CompareTag ("Player")) {
+			if (CompareTag ("Item")) {
 
-			if(BallCount <= 0){
-				GameManager.NextScene = "clear";
+				GameParams.AddScore (100);
+				Destroy (gameObject);
+
+				BallCount--;
+				//CountText.text = "" + BallCount;
+
+				if(BallCount <= 0){
+					GameManager.NextScene = "Clear";
 				}
+			}
 		}
 	}
-
+		
 }
