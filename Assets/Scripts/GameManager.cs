@@ -24,6 +24,18 @@ public class GameManager : MonoBehaviour {
 	// 次のシーンを記録する
 	private static string _nextScene = "";
 
+	// オーディオ追加
+	private AudioSource sound01;
+
+	public AudioClip [] SE;
+	public AudioSource SEAudio;
+	private static GameManager _instance;
+
+	public static void PlaySE(int num){
+		_instance.SEAudio.PlayOneShot (_instance.SE [num]);
+	}
+
+
 	// 次のシーンを指定する変数、空文字のときは何もしない
 	public static string NextScene {
 		get { return _nextScene; }
@@ -39,12 +51,22 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+
+
+	void OnDestroy(){
+		sound01.Stop();
+	}
+
+
 	// Use this for initialization
 	void Start () {
 		Time.timeScale = 1f;
 		GameParams.SetScore (0);
 		_nextScene = "";
 		MoveBall.ClearBallCount ();
+
+
+		_instance = this;
 
 		/*
 		// 敵を出現
@@ -56,6 +78,9 @@ public class GameManager : MonoBehaviour {
 			Instantiate (prefItem);
 		}
 		*/
+
+		// 変数にコンポーネント格納
+		sound01 = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -77,8 +102,12 @@ public class GameManager : MonoBehaviour {
 			GameParams.AddScore (50000);
 		}
 
+
+
+
 		// シーン切り替え処理
 		if (NextScene.Length > 0){
+			OnDestroy ();
 			SceneManager.LoadSceneAsync (NextScene, LoadSceneMode.Additive);
 			NextScene = "";
 			enabled = false;

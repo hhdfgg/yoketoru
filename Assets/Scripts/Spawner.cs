@@ -18,6 +18,7 @@ public class Spawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Debug.Log ("start");
 		for (int i = 0; i < SpawnCount; i++) {
 			// 							配列の個数取れる
 			int idx = Random.Range (0, SpawnBounds.Length);

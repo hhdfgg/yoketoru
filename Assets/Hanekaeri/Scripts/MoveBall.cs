@@ -18,6 +18,12 @@ public class MoveBall : MonoBehaviour {
 	//ボールの個数
 	private static int BallCount = 0;
 
+	// オーディオ追加
+	public AudioSource audioSourece;
+
+
+
+
 	public static void ClearBallCount() {
 		BallCount = 0;
 	}
@@ -25,6 +31,8 @@ public class MoveBall : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rig = GetComponent<Rigidbody> ();
+
+		audioSourece = GetComponent<AudioSource> ();
 
 		/*
 		rig.velocity = new Vector3 (vx, vy, 0f);
@@ -41,7 +49,8 @@ public class MoveBall : MonoBehaviour {
 		// if文で条件式が省略されていた場合、
 		// 条件式のところが、trueかflaseを返すようになっている
 		if (CompareTag ("Item")) {
-			
+
+
 			BallCount++;
 			Debug.Log (BallCount);
 			//CountText.text = "" + BallCount;
@@ -57,7 +66,10 @@ public class MoveBall : MonoBehaviour {
 		if (col.CompareTag ("Player")) {
 			if (CompareTag ("Item")) {
 
+				GameManager.PlaySE (0);
+
 				GameParams.AddScore (100);
+
 				Destroy (gameObject);
 
 				BallCount--;

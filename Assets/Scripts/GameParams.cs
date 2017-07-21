@@ -11,6 +11,7 @@ public class GameParams : MonoBehaviour {
 	// スコア
 	private static int _score;
 
+
 	void Awake(){
 		_instance = this;
 	}
